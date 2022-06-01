@@ -13,8 +13,11 @@
     "handtrackjs": "^0.1.5",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-scripts": "5.0.1",
+    "react-simply-carousel": "^7.0.0",
     "sass": "^1.52.1",
+    "styled-components": "^5.3.5",
     "typescript": "^4.7.2",
     "web-vitals": "^2.1.4",
     "webcam-easy": "^1.0.5"

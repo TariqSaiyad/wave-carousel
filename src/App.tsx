@@ -1,36 +1,38 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
-import hand from "./hand.png";
-import "./App.scss";
 import * as handTrack from "handtrackjs";
-import Webcam from "webcam-easy";
+import React, { useEffect, useRef, useState } from "react";
+import "./App.scss";
+import MyCarousel from "./Components/MyCarousel/MyCarousel";
 import Toggle from "./Components/Toggle/Toggle";
+import { COLORS } from "./data";
 
 function App() {
   const [model, setModel] = useState(null);
   const [running, setRunning] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
-  const [midPoint, setMidPoint] = useState({ current: 0, previous: 0 });
+  const [midPoint, setMidPoint] = useState({ val: 0, time: 0 });
+  const prevMidPoint = usePrevious(midPoint);
   const [direction, setDirection] = useState(0);
   const [roc, setRoc] = useState(0);
-  const [maxRoc, setMaxRoc] = useState(0);
-  const myTimer = useRef(null);
-  const INTERVAL = 100;
-  const DETECTION_THRESHOLD = 1.3;
-  const ROC_THRESHOLD = 1;
-  const UPPER_ROC_THRESHOLD = 2.7;
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const NUM_ITEMS = 4;
+  const INTERVAL = 33;
+  const DETECTION_THRESHOLD = 1.2;
+  // const DETECTION_THRESHOLD = 2.7;
+
   const params = {
     flipHorizontal: true, // flip e.g for video
-    maxNumBoxes: 3, // maximum number of boxes to detect
+    maxNumBoxes: 2, // maximum number of boxes to detect
     iouThreshold: 0.5, // ioU threshold for non-max suppression
-    scoreThreshold: 0.5, // confidence threshold for predictions.
+    scoreThreshold: 0.75, // confidence threshold for predictions.
   };
 
+  const myTimer = useRef(null);
   const webCam = useRef(null);
   const canvas = useRef(null);
 
   function runDetection() {
     model.detect(webCam.current).then((predictions) => {
-      // console.log("Predictions: ", predictions);
       model.renderPredictions(
         predictions,
         canvas.current,
@@ -38,30 +40,40 @@ function App() {
         webCam.current
       );
 
-      const hand = [...predictions].find((p) => p.label !== "face");
+      const hand = [...predictions].find((p) => p.label === "point");
 
       if (hand) {
         const { bbox } = hand;
-        let midval = bbox[0] + bbox[2] / 2;
-        let gamex = midval;
-
-        setMidPoint((mid) => {
-          const roc = (gamex - mid.current) / INTERVAL;
-          setRoc(roc);
-          if (Math.abs(roc) > Math.abs(maxRoc)) {
-            setMaxRoc(Math.abs(roc));
-          }
-          if (Math.abs(roc) > ROC_THRESHOLD && Math.abs(roc) < UPPER_ROC_THRESHOLD ) {
-            setDirection(roc);
-          }
-
-          return { current: gamex, previous: mid.current };
-        });
+        let midval: number = bbox[0] + bbox[2] / 2;
+        setMidPoint({ val: midval, time: new Date().getTime() });
       }
     });
   }
 
   useEffect(() => {
+    if (!midPoint.val) return;
+    // calculate rate of change.
+    const roc =
+      (midPoint.val - prevMidPoint.val) / (midPoint.time - prevMidPoint.time);
+    setRoc(roc);
+    if (Math.abs(roc) > DETECTION_THRESHOLD) {
+      console.log(roc);
+      setDirection(roc);
+    }
+  }, [midPoint]);
+
+  useEffect(() => {
+    // goes left or right based on direction value
+    setSlideIndex((s) => {
+      const n = direction > 0 ? s - 1 : s + 1;
+      if (n === NUM_ITEMS) return 0;
+      if (n < 0) return NUM_ITEMS - 1;
+      return n;
+    });
+  }, [direction]);
+
+  useEffect(() => {
+    // re-runs detection at a specified interval.
     function startTimer() {
       myTimer.current = setInterval(() => isVideo && runDetection(), INTERVAL);
     }
@@ -71,16 +83,12 @@ function App() {
   }, [isVideo]);
 
   useEffect(() => {
-    if (!model) {
-      handTrack.load(params).then((model) => setModel(model));
-    }
+    // load model
+    if (!model) handTrack.load(params).then((model) => setModel(model));
+
+    // start webcam
     if (running) {
-      handTrack.startVideo(webCam.current).then((status) => {
-        console.log(status.msg);
-        console.log(model);
-        setIsVideo(true);
-        // if (status) runDetection();
-      });
+      handTrack.startVideo(webCam.current).then((status) => setIsVideo(true));
     } else {
       setIsVideo(false);
       handTrack.stopVideo(webCam.current);
@@ -89,13 +97,28 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header>
+        <h1>Wavy Carousel 🎠</h1>
+      </header>
+      <main>
+        <MyCarousel slideIndex={slideIndex}>
+          {[...Array(NUM_ITEMS).keys()].map((i) => (
+            <div
+              key={i}
+              style={{ background: COLORS[i] }}
+              className="carousel-item"
+            >
+              slide {i}
+            </div>
+          ))}
+        </MyCarousel>
+        {slideIndex}
         <p>
-          {Math.abs(maxRoc)} == {roc} = {direction}
+          {roc} = {direction}
         </p>
         <p>{direction < 0 ? "left <<<<" : "right >>>>"}</p>
         <p>
-          Current:{midPoint.current} - prev: {midPoint.previous}
+          Current:{midPoint?.val} - prev: {prevMidPoint?.val}
         </p>
         <p>{model ? "Model loaded" : null}</p>
         <p>{running ? "running" : "not running"}</p>
@@ -108,20 +131,22 @@ function App() {
         ></video>
         <canvas id="canvas" ref={canvas} className="d-none"></canvas>
         {/* <img id="hand" src={hand} ref={modelImg} alt="hand" /> */}
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </main>
     </div>
   );
+}
+
+// Hook
+function usePrevious<T>(value: T): T {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref: any = useRef<T>();
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
 }
 
 export default App;
