@@ -8,6 +8,7 @@ $light-blue-color: #a8dadc;
   header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0.5rem 2rem;
     background: $light-blue-color;
     box-shadow: 0 0 11px 6px #0000003b;

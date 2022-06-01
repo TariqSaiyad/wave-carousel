@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as handTrack from "handtrackjs";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.scss";
@@ -17,7 +19,7 @@ function App() {
 
   const NUM_ITEMS = 4;
   const INTERVAL = 33;
-  const DETECTION_THRESHOLD = 1.2;
+  const DETECTION_THRESHOLD = 1.1;
   // const DETECTION_THRESHOLD = 2.7;
 
   const params = {
@@ -99,6 +101,7 @@ function App() {
     <div className="App">
       <header>
         <h1>Wavy Carousel 🎠</h1>
+        {model && <Toggle  title="Start Video" checked={running} onChange={setRunning} />}
       </header>
       <main>
         <MyCarousel slideIndex={slideIndex}>
@@ -112,7 +115,7 @@ function App() {
             </div>
           ))}
         </MyCarousel>
-        {slideIndex}
+        {/* {slideIndex}
         <p>
           {roc} = {direction}
         </p>
@@ -121,8 +124,7 @@ function App() {
           Current:{midPoint?.val} - prev: {prevMidPoint?.val}
         </p>
         <p>{model ? "Model loaded" : null}</p>
-        <p>{running ? "running" : "not running"}</p>
-        <Toggle title="Start Video" checked={running} onChange={setRunning} />
+        <p>{running ? "running" : "not running"}</p> */}
         <video
           id="webcam"
           ref={webCam}

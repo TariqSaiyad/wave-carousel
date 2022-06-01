@@ -1,4 +1,6 @@
-
+$light-color: #f1faee;
+$blue-clor: #1d3557;
+$light-blue-color: #a8dadc;
 /* Toggle */
 .switch {
     display: inline-block;
@@ -9,9 +11,9 @@
         float: left;
         input {
             display:none;
-            &:checked + .slider { background-color: #218d96; }
+            &:checked + .slider { background-color: $blue-clor; }
             &:checked + .slider:before { transform: translateX(26px); }
-            &:focus + .slider { box-shadow: 0 0 1px #218d96; }
+            &:focus + .slider { box-shadow: 0 0 1px $blue-clor; }
         }
     }
     label {
@@ -29,7 +31,7 @@
     width: 100%;
     border: 0;
     outline: none;
-    background-color: #ccc;
+    background-color: hsl(182, 43%, 36%);
     transition: .4s;
     border-radius: 34px;
     cursor: pointer;

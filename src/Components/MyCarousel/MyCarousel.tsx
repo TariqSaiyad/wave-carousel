@@ -8,6 +8,7 @@ function MyCarousel(props) {
       infiniteLoop
       swipeable
       emulateTouch
+      showThumbs={false}
       selectedItem={props.slideIndex}
     >
       {props.children}
