@@ -19,7 +19,7 @@ function App() {
 
   const NUM_ITEMS = 4;
   const INTERVAL = 33;
-  const DETECTION_THRESHOLD = 1.1;
+  const DETECTION_THRESHOLD = 1.2;
   // const DETECTION_THRESHOLD = 2.7;
 
   const params = {
@@ -101,9 +101,15 @@ function App() {
     <div className="App">
       <header>
         <h1>Wavy Carousel 🎠</h1>
-        {model && <Toggle  title="Start Video" checked={running} onChange={setRunning} />}
+        {model && (
+          <Toggle title="Start Video" checked={running} onChange={setRunning} />
+        )}
       </header>
       <main>
+        <div className="video-container">
+          <canvas id="canvas" ref={canvas} className="d-none"></canvas>
+        </div>
+
         <MyCarousel slideIndex={slideIndex}>
           {[...Array(NUM_ITEMS).keys()].map((i) => (
             <div
@@ -131,8 +137,6 @@ function App() {
           autoPlay
           style={{ display: "none" }}
         ></video>
-        <canvas id="canvas" ref={canvas} className="d-none"></canvas>
-        {/* <img id="hand" src={hand} ref={modelImg} alt="hand" /> */}
       </main>
     </div>
   );

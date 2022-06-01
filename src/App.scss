@@ -22,6 +22,11 @@ $light-blue-color: #a8dadc;
     flex-direction: column;
     padding: 2rem;
   }
+  .video-container {
+    canvas {
+      width: 50%;
+    }
+  }
 }
 
 h1 {
