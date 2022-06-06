@@ -7,16 +7,18 @@ function Toggle(props) {
         <input
           type="checkbox"
           id="toggleInput"
+          disabled={props.disabled}
           checked={props.checked}
           onChange={(e) => props.onChange(e.target.checked)}
-        />
+          />
         <button
           className="slider"
           type="button"
+          disabled={props.disabled}
           onClick={() => props.onChange(!props.checked)}
         ></button>
       </span>
-      <label htmlFor="toggleInput">{props.title}</label>
+      <label className="slider-label" htmlFor="toggleInput">{props.title}</label>
     </div>
   );
 }

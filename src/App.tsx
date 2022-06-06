@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as handTrack from "handtrackjs";
+import { load, startVideo, stopVideo } from "handtrackjs";
 import React, { useEffect, useRef, useState } from "react";
 import "./App.scss";
 import MyCarousel from "./Components/MyCarousel/MyCarousel";
+import Visualiser from "./Components/Visualiser/Visualiser";
 import Toggle from "./Components/Toggle/Toggle";
 import { COLORS } from "./data";
 
@@ -85,29 +86,38 @@ function App() {
   }, [isVideo]);
 
   useEffect(() => {
-    // load model
-    if (!model) handTrack.load(params).then((model) => setModel(model));
-
     // start webcam
     if (running) {
-      handTrack.startVideo(webCam.current).then((status) => setIsVideo(true));
+      startVideo(webCam.current).then((status) => setIsVideo(true));
     } else {
       setIsVideo(false);
-      handTrack.stopVideo(webCam.current);
+      stopVideo(webCam.current);
     }
   }, [running]);
+
+  useEffect(() => {
+    load(params).then((model) => setModel(model));
+  }, []);
 
   return (
     <div className="App">
       <header>
         <h1>Wavy Carousel 🎠</h1>
-        {model && (
-          <Toggle title="Start Video" checked={running} onChange={setRunning} />
-        )}
+        <Toggle
+          title="Start Video"
+          checked={running}
+          onChange={setRunning}
+          disabled={!model}
+        />
       </header>
       <main>
+          <Visualiser
+            roc={roc}
+            midPoint={midPoint.val}
+            interval={INTERVAL}
+          ></Visualiser>
         <div className="video-container">
-          <canvas id="canvas" ref={canvas} className="d-none"></canvas>
+          <canvas id="video-canvas" ref={canvas} className="d-none"></canvas>
         </div>
 
         <MyCarousel slideIndex={slideIndex}>

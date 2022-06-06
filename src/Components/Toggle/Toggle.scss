@@ -14,6 +14,7 @@ $light-blue-color: #a8dadc;
             &:checked + .slider { background-color: $blue-clor; }
             &:checked + .slider:before { transform: translateX(26px); }
             &:focus + .slider { box-shadow: 0 0 1px $blue-clor; }
+            &:disabled + .slider { background-color: gray; cursor: not-allowed; }
         }
     }
     label {
