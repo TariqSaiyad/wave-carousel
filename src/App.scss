@@ -25,13 +25,31 @@ $light-blue-color: #a8dadc;
   }
 
   .video-container {
-    // display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
     grid-auto-flow: column;
+    gap: 1rem;
+    padding: 2rem 0;
 
     #video-canvas {
-      width: 50%;
+      width: 100%;
+      position: sticky;
+      top: 10rem;
+      // width: 50%;
     }
+  }
+
+  .carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: whitesmoke;
+    background-clip: text;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: monospace;
+    // letter-spacing: 1rem;
   }
 }
 

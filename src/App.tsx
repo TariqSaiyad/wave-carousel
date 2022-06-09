@@ -21,7 +21,6 @@ function App() {
   const NUM_ITEMS = 4;
   const INTERVAL = 33;
   const DETECTION_THRESHOLD = 1.2;
-  // const DETECTION_THRESHOLD = 2.7;
 
   const params = {
     flipHorizontal: true, // flip e.g for video
@@ -111,15 +110,6 @@ function App() {
         />
       </header>
       <main>
-          <Visualiser
-            roc={roc}
-            midPoint={midPoint.val}
-            interval={INTERVAL}
-          ></Visualiser>
-        <div className="video-container">
-          <canvas id="video-canvas" ref={canvas} className="d-none"></canvas>
-        </div>
-
         <MyCarousel slideIndex={slideIndex}>
           {[...Array(NUM_ITEMS).keys()].map((i) => (
             <div
@@ -131,16 +121,15 @@ function App() {
             </div>
           ))}
         </MyCarousel>
-        {/* {slideIndex}
-        <p>
-          {roc} = {direction}
-        </p>
-        <p>{direction < 0 ? "left <<<<" : "right >>>>"}</p>
-        <p>
-          Current:{midPoint?.val} - prev: {prevMidPoint?.val}
-        </p>
-        <p>{model ? "Model loaded" : null}</p>
-        <p>{running ? "running" : "not running"}</p> */}
+        <div className="video-container">
+          <canvas id="video-canvas" ref={canvas} className="d-none"></canvas>
+          <Visualiser
+            roc={roc}
+            midPoint={midPoint.val}
+            interval={INTERVAL}
+          ></Visualiser>
+        </div>
+
         <video
           id="webcam"
           ref={webCam}
