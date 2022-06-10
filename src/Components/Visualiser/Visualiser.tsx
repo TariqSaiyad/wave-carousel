@@ -47,13 +47,13 @@ function Visualiser(props) {
         show: false,
         pieces: [
           {
-            lte: 1.2,
+            lte: 1.1,
             gt: 0,
             color: "#93CE07",
           },
           {
             lte: 0,
-            gt: -1.2,
+            gt: -1.1,
             color: "#93CE07",
           },
         ],

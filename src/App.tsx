@@ -20,7 +20,7 @@ function App() {
 
   const NUM_ITEMS = 4;
   const INTERVAL = 33;
-  const DETECTION_THRESHOLD = 1.2;
+  const DETECTION_THRESHOLD = 1.1;
 
   const params = {
     flipHorizontal: true, // flip e.g for video
