@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "https://tariqsaiyad.github.io/wave-carousel/static/css/main.c083ee11.css",
-    "main.js": "https://tariqsaiyad.github.io/wave-carousel/static/js/main.1d5229de.js",
-    "static/js/787.30507e25.chunk.js": "https://tariqsaiyad.github.io/wave-carousel/static/js/787.30507e25.chunk.js",
+    "main.css": "https://tariqsaiyad.github.io/wave-carousel/static/css/main.630b623e.css",
+    "main.js": "https://tariqsaiyad.github.io/wave-carousel/static/js/main.7672ba73.js",
     "index.html": "https://tariqsaiyad.github.io/wave-carousel/index.html",
-    "main.c083ee11.css.map": "https://tariqsaiyad.github.io/wave-carousel/static/css/main.c083ee11.css.map",
-    "main.1d5229de.js.map": "https://tariqsaiyad.github.io/wave-carousel/static/js/main.1d5229de.js.map",
-    "787.30507e25.chunk.js.map": "https://tariqsaiyad.github.io/wave-carousel/static/js/787.30507e25.chunk.js.map"
+    "main.630b623e.css.map": "https://tariqsaiyad.github.io/wave-carousel/static/css/main.630b623e.css.map",
+    "main.7672ba73.js.map": "https://tariqsaiyad.github.io/wave-carousel/static/js/main.7672ba73.js.map"
   },
   "entrypoints": [
-    "static/css/main.c083ee11.css",
-    "static/js/main.1d5229de.js"
+    "static/css/main.630b623e.css",
+    "static/js/main.7672ba73.js"
   ]
 }
