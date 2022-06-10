@@ -70,7 +70,7 @@ function Visualiser(props) {
       {
         top: "55%",
         left: "center",
-        text: "Rate of change",
+        text: "Speed",
       },
     ],
 
