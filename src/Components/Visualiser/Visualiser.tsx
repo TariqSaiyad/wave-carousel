@@ -65,7 +65,7 @@ function Visualiser(props) {
     title: [
       {
         left: "center",
-        text: "Positional",
+        text: "Position",
       },
       {
         top: "55%",
